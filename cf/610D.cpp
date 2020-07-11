@@ -31,7 +31,6 @@ void compress(vector<pair<int, pair<int, int>>>& ve) {
       ret.emplace_back(merge(temp, temp2));
     }
   }
-  cerr << "lol";
   ve = ret;
 }
 
@@ -51,8 +50,10 @@ int get(int v, int s, int e, int l, int r, int val) {
     return 0;
   if(l <= s && r >= e) {
     int ret = 0;
-    int pos = lower_bound(t[v].begin(), t[v].end(), make_pair(val + 1, 0)) - t[v].begin();
-    for(int i = pos - 1; i >= 0; i--) {
+    // int pos = lower_bound(t[v].begin(), t[v].end(), make_pair(val + 1, 0)) - t[v].begin();
+    for(int i = 0; i < (int)t[v].size(); i++) {
+      if(t[v][i].first > val)
+        break;
       if(t[v][i].second >= val)
         ret++;
     }
@@ -90,17 +91,23 @@ int main() {
   sort(hori.begin(), hori.end());
   compress(veri);
   compress(hori);
-
   sz = (int)hori.size();
-  for(auto i : hori) {
-    ans += i.second.second - i.second.first + 1;
+  if(sz == 0) {
+    for(int i = 0; i < (int)veri.size(); i++) {
+      ans += veri[i].second.second - veri[i].second.first + 1;
+    }
+    cout << ans << '\n';
+    return 0;
+  }
+  for(int i = 0; i < sz; i++) {
+    ans += hori[i].second.second - hori[i].second.first + 1;
   }
   build(1, 0, sz - 1);
   for(int i = 0; i < (int)veri.size(); i++) {
-    int ov, lo, hi;
-    ans += veri[i].second.second - veri[i].second.first + 1;
+    int lo, hi;
+    ans += (veri[i].second.second - veri[i].second.first + 1);
     lo = lower_bound(hori.begin(), hori.end(), make_pair(veri[i].second.first, make_pair(-MAX, 0))) - hori.begin();
-    hi = upper_bound(hori.begin(), hori.end(), make_pair(veri[i].second.second + 1, make_pair(-MAX, 0))) - hori.begin();
+    hi = lower_bound(hori.begin(), hori.end(), make_pair(veri[i].second.second + 1, make_pair(-MAX, 0))) - hori.begin();
     ans -= get(1, 0, sz - 1, lo, hi - 1, veri[i].first);
   }
   cout << ans << '\n';
