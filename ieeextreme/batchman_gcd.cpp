@@ -1,49 +1,51 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define ll long long
-#define pb push_back
-#define ff first
-#define ss second
-#define foru(i,a,b) for(int i = (int) a; i < (int) b; i++)
-#define ford(i,a,b) for(int i = (int) a; i > (int) b; i--)
-#define fors(i,n) for(int i = 0; i < n; i++)
-#define fill(a,b) memset(a, (b), sizeof(a))
-#define pii pair<int, int>
-#define pll pair<long long, long long>
-const int MAXN = 100005;
 
-int main(){
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);	
-	cout.tie(NULL);
+using ll = long long;
+using ld = long double;
 
-	int n,k,maks=0;
-	cin >> n >> k;
-	int a[MAXN+5];
-	bitset<100005> m[MAXN+5];
+const int MOD[] = {1000000007, 998244353};
+const int N = 1e5;
 
-	for(int i=0; i<n; i++){
-		cin >> a[i]; maks = max(maks, a[i]);
-		for(int j=1; j*j<=a[i]; j++){
-			if(a[i]%j==0){
-				m[j].set(i);
-				if(j != n/j) m[n/j].set(i);
-			}
-		}
-	}
+int ans[2][N + 69], pw[2][N + 69];
+int ar[N + 69], cnt[N + 69];
+int n, k;
 
-	int ans=0;
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0); cout.tie(0);
 
-	set< bitset<100005> > s;
-
-
-	bitset<100005> nil;
-	for(int i=maks; i>1; i--){
-		auto j = s.find(m[i]);
-		if(j != s.end()) continue;
-		ans++; s.insert(m[i]);
-	}
-
-	cout<<ans;
-
+  cin >> n >> k;
+  for(int i = 1; i <= n; i++) {
+  	cin >> ar[i];
+  	for(int j = 1; j * j <= ar[i]; j++) {
+  		if(ar[i] % j == 0) {
+  			cnt[j]++;
+  			if(j * j != ar[i])
+  				cnt[ar[i] / j]++;
+  		}
+  	}
+  }
+  pw[0][0] = pw[1][0] = 1;
+  for(int i = 1; i <= N; i++) {
+  	pw[0][i] = (1LL * 2 * pw[0][i - 1]) % MOD[0];
+  	pw[1][i] = (1LL * 2 * pw[1][i - 1]) % MOD[1];
+  }
+  int jwb = 0;
+  for(int i = N; i >= 1; i--) {
+  	bool ok = true;
+  	for(int t = 0; t < 2; t++) {
+  		int lol = (pw[t][min(cnt[i], k)] - 1);
+  		for(int j = 2 * i; j <= N; j += i) {
+  			lol = (1LL * lol - ans[t][j]) % MOD[t];
+  		}
+  		if(lol < 0)
+  			lol += MOD[t];
+  		ans[t][i] = lol;
+  		ok &= (lol == 0);
+  	}
+  	jwb += ok;
+  }
+  cout << N - jwb << '\n';
+  return 0;
 }

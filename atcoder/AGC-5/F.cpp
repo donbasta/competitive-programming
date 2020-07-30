@@ -78,18 +78,7 @@ int main() {
   }
 
   dfs(1, 0);
-  int mx_deg = -1;
-  for(int i = 1; i <= n; i++) {
-    mx_deg = max(mx_deg, cnt[i]);
-  }
 
-  vector<vector<int>> poww(mx_deg + 1);
-  poww[0] = {1};
-  for(int i = 1; i <= mx_deg; i++) {
-    poww[i] = multiply(poww[i - 1], {1, 1});
-  }
-  vector<int> prod = {1};
-  for(int i = 1; i )
 
   
   return 0;
