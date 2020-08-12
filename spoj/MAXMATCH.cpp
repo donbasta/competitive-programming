@@ -63,18 +63,13 @@ int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0); cout.tie(0);
 
-  #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-  #endif
-
   cin >> s;
   int sz = (int)s.length();
-  vector<cd> a(2 * sz), b(sz);
+  vector<cd> a(sz), b(sz);
   for(int i = 0; i < sz; i++) {
   	ll temp = s[i] - 'a';
   	cd cur(cos(rt3 * temp), sin(rt3 * temp));
-  	a[i] = a[i + sz] = cur;
+  	a[i] = cur;
   }
   for(int i = sz - 1; i >= 0; i--) {
   	ll temp = s[sz - 1 - i] - 'a';
@@ -84,19 +79,20 @@ int main() {
   vector<cd> lol = mul(a, b);
   vector<ll> match(sz + 2);
   ll mx = -1;
-  for(int i = sz - 1; i < 2 * sz - 1; i++) {
-  	ld koef = round(lol[i].real());
-  	koef = ((koef * 2.0) + sz) / 3.0;
-  	ll temp = (ll) koef;
-  	match[i - sz + 2] = temp;
+  for(int i = sz; i < 2 * sz - 1; i++) {
+  	ld koef = lol[i].real();
+    
+  	koef = ((koef * 2.0) + 2 * sz - i - 1) / 3.0;
+    // cerr << fixed << setprecision(20) << koef << '\n';
+
+  	ll temp = round(koef);
+  	match[i - sz + 1] = temp;
   	mx = max(mx, temp);
   }
   cout << mx << '\n';
   for(int i = 1; i <= sz; i++) {
-    cout << i << ' ' << match[i] << '\n';
-  	// if(match[i] == mx) {
-   //    cout << i << '\n';
-  	// }
+    cerr << i << ' ' << match[i] << '\n';
+    if(match[i] == mx) {cout << i << ' ';}
   }
   return 0;
 }
