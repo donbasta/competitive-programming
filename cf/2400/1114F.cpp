@@ -7,8 +7,8 @@ using ld = long double;
 const int N = 300, NMAX = 4e5;
 vector<int> pr;
 
-int t[(NMAX << 2) + 5][65], lz[(NMAX << 2) + 5][65];
-int n, q;
+unordered_map<int, int> t[(NMAX << 2) + 5], lz[(NMAX << 2) + 5];
+int n, q, primeSize;
 int ar[NMAX + 5];
 ll pw[70][70];
 
@@ -21,6 +21,7 @@ void init() {
       isPrime[j] = false;
     }
   }
+  primeSize = (int)pr.size();
   for(int i = 0; i < (int)pr.size(); i++) {
     pw[i][0] = 1;
     ll temp = 1;
@@ -30,6 +31,10 @@ void init() {
       pw[i][++cur] = temp;
     }
   }
+  // for(int i = 0; i < (NMAX << 2) + 5; i++) {
+  //   t[i].resize(primeSize);
+  //   lz[i].resize(primeSize);
+  // }
 }
 
 void build(int v, int s, int e, int idx, const vector<int>& ve) {
