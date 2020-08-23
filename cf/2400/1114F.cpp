@@ -1,17 +1,18 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+ 
 using ll = long long;
 using ld = long double;
-
+ 
 const int N = 300, NMAX = 4e5;
 vector<int> pr;
-
-unordered_map<int, int> t[(NMAX << 2) + 5], lz[(NMAX << 2) + 5];
+ 
+unordered_map<int, int> t[NMAX * 2 + 5], lz[NMAX * 2 + 5];
 int n, q, primeSize;
-int ar[NMAX + 5];
+int ar[NMAX + 5], L[2 * NMAX + 5], R[2 * NMAX + 5];
 ll pw[70][70];
-
+int p = 1;
+ 
 void init() {
   vector<bool> isPrime(N + 5, 1);
   for(int i = 2; i <= N; i++) {
@@ -31,20 +32,22 @@ void init() {
       pw[i][++cur] = temp;
     }
   }
-  // for(int i = 0; i < (NMAX << 2) + 5; i++) {
+  // for(int i = 0; i < (NMAX << 1) + 5; i++) {
   //   t[i].resize(primeSize);
   //   lz[i].resize(primeSize);
   // }
 }
-
+ 
 void build(int v, int s, int e, int idx, const vector<int>& ve) {
   if(s == e) {t[v][idx] = ve[s]; return;}
   int mid = (s + e) >> 1;
-  build(v << 1, s, mid, idx, ve);
-  build(v << 1 | 1, mid + 1, e, idx, ve);
-  t[v][idx] = t[v << 1][idx] + t[v << 1 | 1][idx];
+  if(L[v] == 0) L[v] = ++p;
+  if(R[v] == 0) R[v] = ++p;
+  build(L[v], s, mid, idx, ve);
+  build(R[v], mid + 1, e, idx, ve);
+  t[v][idx] = t[L[v]][idx] + t[R[v]][idx];
 }
-
+ 
 void make() {
   for(int i = 0; i < (int)pr.size(); i++) {
     vector<int> temp(n + 1);
@@ -57,17 +60,17 @@ void make() {
     build(1, 1, n, i, temp);
   }
 }
-
+ 
 void push(int v, int s, int e, int idx) {
   if(!lz[v][idx]) return;
   int mid = (s + e) >> 1;
-  t[v << 1][idx] += (mid - s + 1) * lz[v][idx];
-  t[v << 1 | 1][idx] += (e - mid) * lz[v][idx];
-  lz[v << 1][idx] += lz[v][idx];
-  lz[v << 1 | 1][idx] += lz[v][idx];
+  t[L[v]][idx] += (mid - s + 1) * lz[v][idx];
+  t[R[v]][idx] += (e - mid) * lz[v][idx];
+  lz[L[v]][idx] += lz[v][idx];
+  lz[R[v]][idx] += lz[v][idx];
   lz[v][idx] = 0;
 }
-
+ 
 void upd(int v, int s, int e, int l, int r, int idx, int val) {
   if(l > e || r < s) return;
   if(l == s && r == e) {
@@ -77,11 +80,11 @@ void upd(int v, int s, int e, int l, int r, int idx, int val) {
   }
   int mid = (s + e) >> 1;
   push(v, s, e, idx);
-  upd(v << 1, s, mid, l, min(mid, r), idx, val);
-  upd(v << 1 | 1, mid + 1, e, max(mid + 1, l), r, idx, val);
-  t[v][idx] = t[v << 1][idx] + t[v << 1 | 1][idx];
+  upd(L[v], s, mid, l, min(mid, r), idx, val);
+  upd(R[v], mid + 1, e, max(mid + 1, l), r, idx, val);
+  t[v][idx] = t[L[v]][idx] + t[R[v]][idx];
 }
-
+ 
 void mul(int l, int r, int x) {
   for(int i = 0; i < (int)pr.size(); i++) {
     int temp = 0;
@@ -91,7 +94,7 @@ void mul(int l, int r, int x) {
     if(temp) upd(1, 1, n, l, r, i, temp);
   }
 }
-
+ 
 int que(int v, int s, int e, int l, int r, int idx) {
   if(l > e || r < s) return 0;
   if(l == s && r == e) {
@@ -99,9 +102,9 @@ int que(int v, int s, int e, int l, int r, int idx) {
   }
   int mid = (s + e) >> 1;
   push(v, s, e, idx);
-  return que(v << 1, s, mid, l, min(r, mid), idx) + que(v << 1 | 1, mid + 1, e, max(l, mid + 1), r, idx);
+  return que(L[v], s, mid, l, min(r, mid), idx) + que(R[v], mid + 1, e, max(l, mid + 1), r, idx);
 }
-
+ 
 int tot(int l, int r) {
   ll ret = 1;
   for(int i = 0; i < (int)pr.size(); i++) {
@@ -112,13 +115,14 @@ int tot(int l, int r) {
   }
   return ret;
 }
-
+ 
 void solve() {
   init();
   cin >> n >> q;
   for(int i = 1; i <= n; i++) {
     cin >> ar[i];
   }
+  // cerr << "lol";
   make();
   while(q--) {
     string s;
@@ -134,11 +138,11 @@ void solve() {
     }
   }
 }
-
+ 
 int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0); cout.tie(0);
-
+ 
   int TC = 1;
   for(int i = 1; i <= TC; i++) {
     solve();
