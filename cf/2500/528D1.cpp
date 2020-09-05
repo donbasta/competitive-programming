@@ -1,3 +1,8 @@
+#pragma GCC optimize ("Ofast")
+#pragma GCC target ("avx2")
+#pragma GCC optimization ("O3")
+#pragma GCC optimization ("unroll-loops")
+
 #include<bits/stdc++.h>
  
 using namespace std;
@@ -5,7 +10,7 @@ using ll = long long;
 using ld = double;
 using cd = complex<ld>;
  
-const ld PI = acos(-1);
+const ld PI = acosl(-1);
  
 void fft(vector<cd>& a, bool invert) {
   int n = (int)a.size();
@@ -22,18 +27,15 @@ void fft(vector<cd>& a, bool invert) {
       cd w(1);
       for(int j = 0; j < len / 2; j++) {
         cd u = a[i + j], v = a[i + j + len / 2] * w;
-        a[i + j] = u + v;
-        a[i + j + len / 2] = u - v;
+        a[i + j] = u + v, a[i + j + len / 2] = u - v;
         w *= wlen;
       }
     }
   }
-  if(invert) {
-    for(auto & x : a) { x /= n; }
-  }
+  if(invert) { for(cd& x : a) { x /= n; } }
 }
  
-vector<cd> conv(vector<cd> const& a, vector<cd> const& b) {
+vector<int> conv(vector<int> const& a, vector<int> const& b) {
   vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
   int n = 1;
   while(n < (int)a.size() + b.size()) { n <<= 1; }
@@ -41,41 +43,40 @@ vector<cd> conv(vector<cd> const& a, vector<cd> const& b) {
   fft(fa, false), fft(fb, false);
   for(int i = 0; i < n; i++) { fa[i] *= fb[i]; }
   fft(fa, true);
-  return fa;
+  vector<int> ret(n);
+  for(int i = 0; i < n; i++) { ret[i] = round(fa[i].real()); }
+  return ret;
 }
  
-const string gen = "ACGT";
 const int N = 2e5;
+const string gen = "ACGT";
 int ls, lt, k;
 string s, t;
-int ans[N + 5];
+int ans[N + 5], temp[N + 5];
  
 void solve() {
   cin >> ls >> lt >> k;
   cin >> s >> t;
-  for(int i = 0; i < 4; i += 2) {
-    vector<int> t1(ls + 1), t2(ls + 1);
+  for(int i = 0; i < 4; i++) {
+    fill(temp, temp + ls + 1, 0);
     for(int j = 0; j < ls; j++) {
-      t1[j + 1] = t1[j] + (s[j] == gen[i]);
-      t2[j + 1] = t2[j] + (s[j] == gen[i + 1]);
+      temp[j + 1] = temp[j] + (s[j] == gen[i]);
     }
-    vector<cd> A(lt), B(ls);
+    vector<int> A(lt), B(ls);
     for(int j = 1; j <= ls; j++) {
       int l = max(1, j - k), r = min(ls, j + k);
-      int lol1 = t1[r] - t1[l - 1];
-      int lol2 = t2[r] - t2[l - 1];
-      if(lol > 0) B[j - 1] = cd(1);
-      else B[j - 1] = cd(0);
+      int lol = temp[r] - temp[l - 1];
+      if(lol > 0) B[ls - j] = 1;
+      else B[ls - j] = 0;
     }
     int cnt = 0;
     for(int j = 0; j < lt; j++) {
-      if(t[j] == gen[i]) { A[j] = cd(1); cnt++; }
-      else A[j] = cd(0);
+      if(t[j] == gen[i]) { A[j] = 1, cnt++; } 
+      else A[j] = 0;
     }
-    reverse(B.begin(), B.end());
-    vector<cd> Prod = conv(A, B);
+    vector<int> Prod = conv(A, B);
     for(int j = 0; j < ls - lt + 1; j++) {
-      int cur = (int) round(Prod[j + lt - 1].real());
+      int cur = Prod[j + lt - 1];
       if(cur == cnt) { ans[j]++; }
     }
   }

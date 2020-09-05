@@ -45,9 +45,9 @@ int main() {
   int tc;
   cin >> tc;
   while(tc--) {
-  	int a;
-  	cin >> a;
-  	cout << ans[a] << '\n';
+    int a;
+    cin >> a;
+    cout << ans[a] << '\n';
   }
 
   return 0;

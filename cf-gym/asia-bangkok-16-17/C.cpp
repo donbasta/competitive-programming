@@ -12,10 +12,10 @@ int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0); cout.tie(0);
 
-  const int N = 2e5;
-  cout << N << '\n';
-  for(int i = 1; i <= N; i++) {
-    cout << i << ' ' << i + 1 << '\n';
+  int TC = 1;
+  cin >> TC;
+  for(int i = 1; i <= TC; i++) {
+    solve();
   }
   
   return 0;

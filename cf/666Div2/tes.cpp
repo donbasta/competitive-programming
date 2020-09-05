@@ -12,10 +12,15 @@ int main() {
   ios_base::sync_with_stdio(0);
   cin.tie(0); cout.tie(0);
 
-  const int N = 2e5;
-  cout << N << '\n';
-  for(int i = 1; i <= N; i++) {
-    cout << i << ' ' << i + 1 << '\n';
+  multiset<int> se;
+  se.insert(10);
+  se.insert(10);
+  se.insert(20);
+  cout << se.size() << '\n';
+  se.erase(se.find(10));
+  cout << se.size() << '\n';
+  for(auto i : se) {
+    cout << i << ' ';
   }
   
   return 0;
