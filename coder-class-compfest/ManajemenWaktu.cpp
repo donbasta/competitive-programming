@@ -33,9 +33,6 @@ void solve() {
     b[mp[ti[i].second]]++;
   }
   ll ans = 0;
-  // for(int i = 0; i < cnt; i++) {
-  //   cerr << a[i] << ' ' << b[i] << '\n';
-  // }
   assert(b[0] == 0);
   int cur = 0;
   for(int i = 0; i < cnt; i++) {

@@ -5,25 +5,22 @@ using ll = long long;
 using ld = long double;
 
 void solve() {
-  ll a, b, x, y, n, ans = 1e18;
+  ll a, b, x, y, n;
   cin >> a >> b >> x >> y >> n;
-  if(a - x + b - y <= n) {
-    ans = x * y;
-  } else {
-    if(n >= (a - x)) {
-      ll u = a - x;
-      ll uu = n - u;
-      b -= uu;
-      ans = min(ans, x * b);
-    }
-    if(n >= (b - y)) {
-      ll v = b - y;
-      ll vv = n - v;
-      a -= vv;
-      ans = min(ans, y * a);
-    }
-    if(b - n >= y) ans = min(ans, a * (b - n));
-    if(a - n >= x) ans = min(ans, b * (a - n));
+  ll ans = 1e18;
+  {
+    ll ta = a, tb = b, tn = n;
+    ta -= min(n, a - x);
+    tn -= min(n, a - x);
+    tb -= min(tn, b - y);
+    ans = min(ans, ta * tb);
+  }
+  {
+    ll ta = a, tb = b, tn = n;
+    tb -= min(n, b - y);
+    tn -= min(n, b - y);
+    ta -= min(tn, a - x);
+    ans = min(ans, ta * tb);
   }
   cout << ans << '\n';
 }
