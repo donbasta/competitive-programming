@@ -4,6 +4,9 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
+const int MX = 1e5;
+const int INF = 1e9 + 7;
+
 void solve() {
   int n, W;
   cin >> n >> W;
@@ -13,23 +16,26 @@ void solve() {
     cin >> w[i] >> val[i];
   }
 
-  vector<bool> can(W + 1);
-  vector<ll> dp(W + 1);
+  vector<bool> can(MX + 1);
+  vector<ll> dp(MX + 1, INF);
   can[0] = 1;
+  dp[0] = 0;
   for (int i = 1; i <= n; i++) {
-    for (int j = W; j >= 1; j--) {
-      int pr = j - w[i];
+    for (int j = MX; j >= 1; j--) {
+      int pr = j - val[i];
       if (pr < 0 || !can[pr]) continue;
-      dp[j] = max(dp[pr] + val[i], dp[j]);
+      dp[j] = min(dp[j], dp[pr] + w[i]);
       can[j] = 1;
     }
   }
-  ll ans = -1;
-  for (int i = 1; i <= W; i++) {
-    ans = max(ans, dp[i]);
-  }
 
-  cout << ans << '\n';
+  for (int i = MX; i >= 0; i--) {
+    if (can[i] && dp[i] <= W) {
+      // cerr << dp[i] << '\n';
+      cout << i << '\n';
+      return;
+    }
+  }
 }
 
 int main() {
