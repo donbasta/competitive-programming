@@ -4,87 +4,93 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
-const int MOD = 1e9 + 7;
-const int SZ = 2e3;
-
-int m, d, sz;
+const ll mod = 1e9 + 7;
+const int M = 2000; 
+ll m, d;
 string a, b;
-ll dp[SZ][2][SZ];
-ll ppow[SZ];
 
-ll sub(ll a, ll b) {
-  ll ret = a - b;
-  ret %= m;
-  if(ret < 0) ret += m;
-  return ret;
+ll pw[M + 10];
+ll dp[M + 10][M + 10];
+ll DP[M + 10][M + 10];
+
+inline ll md (ll x, ll y) { x %= y; if (x < 0) x += y; return x; }
+inline void add (ll& x, ll y, ll z) { x = (x + y) % z; }
+inline void fill_pw () { for (int i = 0; i < M; i++) { pw[i] = (pw[i - 1] * 10) % m; } }
+
+void fill_dp () {
+    dp[0][0] = 1;
+    for (int i = 0; i <= 9; i++) { dp[1][(i % m)]++; }
+    for (int i = 1; i <= 9; i++) { dp[2][(10 * i + d) % m]++; }
+    for (ll i = 3; i <= M; i++) {
+        for (ll j = 0; j < m; j++) {
+            for (ll k = 0; k <= 9; k++) {
+                add(dp[i][j], dp[i - 2][md(j - k * pw[i - 1] - d * pw[i - 2], m)], mod);
+            }
+        }
+    }
+    for (int i = 0; i < m; i++) {
+        DP[1][i] = dp[1][i], DP[2][i] = dp[2][i];
+        for (int j = 3; j <= M; j++) {
+            DP[j][i] = (dp[j][i] - dp[j - 2][md(i - d * pw[j - 2], m)]);
+            DP[j][i] = md (DP[j][i], mod);
+        }
+    }
 }
 
-ll get(string num) {
-  ll ret = 0, cur = 0;
-  for(int i = 0; i < sz - 1; i++) {
-    int dig = num[i] - '0';
-    for(int j = 0; j < dig; j++) {
-      if(j == d && !(i & 1)) continue;
-      if(j != d && (i & 1)) continue;
-      ret += dp[sz - 2 - i][(i & 1) ^ 1][sub(0, cur + 1LL * j * ppow[sz - i - 1])];
-      ret %= MOD;
+bool is_magic (string s) {
+    int n = (int)s.length();
+    bool ok = 1;
+    ll cek;
+    for (int i = 0; i < n; i++) {
+        ll dig = s[i] - '0';
+        if (i & 1) ok &= (dig == d);
+        cek = (cek + dig * pw[n - 1 - i]) % m;
     }
-    cur += 1LL * dig * ppow[sz - 1 - i];
-    cur %= m;
-  }
-  for(int i = 0; i <= num[sz - 1] - '0'; i++) {
-    if()
-  }
-  if(cur == 0 && !((sz & 1) && (num[sz - 1] - '0' == d))) ret++;
-  ret %= MOD;
-  if(ret < 0) ret += MOD;
-  return ret;
+    return ok && !cek;
+} 
+
+ll get (string s) {
+    ll ret = 0;
+    ll cur = 0;
+    int len = (int)s.length();
+    for (int i = 1; i < len; i++) {
+        add(ret, DP[i][0], mod);
+    }
+    for (ll i = len - 1; i >= 0; i -= 2) {
+        int dig = s[len - 1 - i] - '0';
+        for (ll j = 1; j < dig; j++) {
+            if (i > 0)
+                add (ret, DP[i - 1][md(m - cur - j * pw[i] - d * pw[i - 1], m)], mod);
+            else
+                add (ret, DP[0][md(m - j * pw[i], m)], mod);
+        }
+        if (i > 0) {
+            int dig_next = s[len - i] - '0';
+            if (dig_next > d) break;
+            add(cur, dig * pw[i] + d * pw[i - 1], m);
+        }
+    }
+    return ret;
 }
 
 void solve() {
-
-  cin >> m >> d;
-  cin >> a >> b;
-  sz = a.length();
-
-  ppow[0] = 1;
-  for(int i = 1; i < SZ; i++) {
-    ppow[i] = (1LL * 10 * ppow[i - 1]) % m;
-  }
-
-  for(int i = 0; i < 2; i++) {
-    for(int j = 0; j < 10; j++) {
-      if(i == 0 && j == d) continue;
-      dp[0][i][j % m]++;
-    }
-  }
-  for(int i = 1; i < sz; i++) {
-    for(int j = 0; j < 2; j++) {
-      for(int k = 0; k < m; k++) {
-        for(int l = 0; l < 10; l++) {
-          if(j == 0 && l == d) continue;
-          if(j == 1 && l != d) continue;
-          dp[i][j][k] += dp[i - 1][j ^ 1][sub(k, l * ppow[i])];
-        }
-      }
-    }
-  }
-  ll A, B;
-  B = get(b), A = get(a);
-  cerr << B << ' ' << A << '\n';
-  ll ans = (B - A) % MOD;
-  if(ans < 0) ans += MOD;
-  cout << ans << '\n';
+    cin >> m >> d;
+    fill_pw ();
+    fill_dp ();
+    cin >> a >> b;
+    ll ans = get (a) - get (b) + is_magic (b);
+    ans = md (ans, mod);
+    cout << ans << '\n';
 }
 
 int main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0); cout.tie(0);
 
-  int TC = 1;
-  for(int i = 1; i <= TC; i++) {
-    solve();
-  }
+    int TC = 1;
+    for(int i = 1; i <= TC; i++) {
+        solve();
+    }
   
-  return 0;
+    return 0;
 }
