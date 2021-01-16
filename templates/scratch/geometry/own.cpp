@@ -5,6 +5,11 @@ inline bool lt(ll a, ll b) { return a < b; }
 inline bool le(ll a, ll b) { return a <= b; }
 inline int sgn(ll x) { return eq(x, 0) ? 0 : (x < 0 ? -1 : 1); }
 
+inline bool eq(LD a, LD b) { return fabs(a-b) < EPS; }
+inline bool lt(LD a, LD b) { return a + EPS < b; }
+inline bool le(LD a, LD b) { return a < b + EPS; }
+inline int sign(LD x) { return eq(x, 0) ? 0 : (x < 0 ? -1 : 1); }
+
 struct point {
 	ll x,y;
 	point(ll _x = 0, ll _y = 0) : x(_x), y(_y) {}
@@ -18,6 +23,7 @@ struct point {
 	bool operator==(const point& p) const { return eq(x, p.x) && eq(y, p.y); }
 	bool operator<(const point& p) const { return eq(y, p.y) ? x < p.x : y < p.y; }
 }
+
 
 ostream& operator<<(ostream& os, point p) {
 	return os << "(" << p.x << ", " << p.y << ")";
