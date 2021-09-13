@@ -4,72 +4,29 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
-const int INF = 1e9;
-int n;
+int n, m, a, b;
 
 void solve() {
-    cin >> n;
-    vector<string> c(n);
-    for (int i = 0; i < n; i++) {
-        cin >> c[i];
-    }
-    vector<int> cnt(n + 5);
-    set<pair<int, int>> se;
-    int mn = INF;
-    for (int i = 0; i < n; i++) {
-        int tmp = 0;
-        bool cant = false;
-        int emp;
-        for (int j = 0; j < n; j++) {
-            if (c[i][j] == 'O') {
-                cant = true;
-                break;
-            } else if (c[i][j] == 'X') {
-                tmp++;
-            } else if (c[i][j] == '.') {
-                emp = j;
-            }
-        }
-        if (cant) continue;
-        else {
-            if (n - tmp > 1) cnt[n - tmp]++;
-            else {
-                se.emplace(i, emp);
-            }
-            mn = min(mn, n - tmp);
-        }
-    }
-    for (int i = 0; i < n; i++) {
-        int tmp = 0;
-        bool cant = false;
-        int emp;
-        for (int j = 0; j < n; j++) {
-            if (c[j][i] == 'O') {
-                cant = true;
-                break;
-            } else if (c[j][i] == 'X') {
-                tmp++;
-            } else if (c[j][i] == '.') {
-                emp = j;
-            }
-        }
-        if (cant) continue;
-        else {
-            if (n - tmp > 1) cnt[n - tmp]++;
-            else {
-                se.emplace(emp, i);
-            }
-            mn = min(mn, n - tmp);
-        }
-    }
-    if (mn == INF) {
+    cin >> n >> m >> a >> b;
+    if (min(a, b) < n + m - 1) {
         cout << "Impossible" << '\n';
-    } else if (mn > 1) {
-        cout << mn << ' ' << cnt[mn] << '\n';
-    } else if (mn == 1) {
-        cout << mn << ' ' << se.size() << '\n';
+        return;
     }
-    return;
+    vector<vector<int>> ve(n, vector<int>(m, 1));
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 1; j < m - 1; j++) {
+            ve[i][j] = 1000;
+        }
+    }
+    ve[0][0] = a - (n + m - 2);
+    ve[0][m - 1] = b - (n + m - 2);
+    cout << "Possible" << '\n';
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << ve[i][j] << ' ';
+        }
+        cout << '\n';
+    }
 }
 
 int main() {
