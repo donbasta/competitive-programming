@@ -5,7 +5,6 @@ using ll = long long;
 using ld = long double;
 
 int x, y, n;
-// string s;
 
 void answer(int p, int q) {
     cout << "! " << p << ' ' << q << endl;
@@ -36,14 +35,11 @@ void update(int& ax, int& ay, char c) {
 void solve() {
     cin >> x >> y >> n;
     n = 20;
-    // cin >> s;
-    // int n = (int) s.length();
     int ax = 0, ay = 0, bx = x, by = y;
     pair<int, int> gotcha;
     bool ketemu = false;
     char kabur;
     for (int i = 0; i < n; i++) {
-        // cerr << ax << ' ' << ay << ' ' << bx << ' ' << by << '\n';
         if (((bx - ax) == 1) && ((by - ay) == 1)) {
             answer(bx, by);
         }
@@ -65,13 +61,11 @@ void solve() {
         if (((bx - ax) == 1) && ((by - ay) == 1)) {
             ketemu = true;
             gotcha = make_pair(bx, by);
-            // kabur = query.second;
             break;
         }
     }
     if (ketemu) {
         int a = gotcha.first, b = gotcha.second;
-        // update(a, b, kabur);
         answer(a, b);
     }
 }

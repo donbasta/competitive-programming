@@ -39,14 +39,11 @@ void solve() {
             ve[p[i][j]][j] = i;
         }
     }
-    // cerr << "test\n";
     ll ans = 0;
     for (int i = 1; i < m; i++) {
         for (int j = 1; j <= n; j++) {
-            // cerr << i << ' ' << j << ' ';
             int a = p[j][i];
             int nx = ve[a][i + 1];
-            // cerr << a << ' ' << nx << '\n';
             ans += get(nx + 1, n);
             upd(nx, 1);
         }
@@ -63,7 +60,6 @@ int main() {
     cin.tie(0); cout.tie(0);
 
     int TC = 1;
-    // cin >> TC;
     for(int i = 1; i <= TC; i++) {
         solve();
     }
