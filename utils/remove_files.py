@@ -1,6 +1,8 @@
 import os
 
 EXT = "out"
+DEL_BINARY = True
+EXTS = ["cpp", "py", "c", "rs"]
 
 
 def remove_files(root):
@@ -16,6 +18,10 @@ def remove_files(root):
         else:
             extension = child.split(".")[-1]
             if extension == EXT:
+                size_delete += os.path.getsize(child)
+                os.remove(child)
+                count_delete += 1
+            if DEL_BINARY and extension not in EXTS:
                 size_delete += os.path.getsize(child)
                 os.remove(child)
                 count_delete += 1
