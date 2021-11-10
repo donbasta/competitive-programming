@@ -31,14 +31,14 @@ public:
         return (*this) *= inverse(a); 
     }
  
-    friend ModInt pow(ModInt a, long long x) {
+    friend ModInt fpow(ModInt a, long long x) {
         ModInt res = 1; assert(x >= 0);
         for (; x; x /= 2, a *= a) if (x & 1) res *= a;
         return res; 
     }
     friend ModInt inverse(ModInt a) {
         assert(a.v != 0);
-        return pow(a, MOD - 2); 
+        return fpow(a, MOD - 2); 
     }
  
     ModInt operator+() const { return ModInt(v); }
@@ -57,6 +57,9 @@ public:
  
 const int MOD = 1e9 + 7;
 using Mint = ModInt<MOD>;
+
+Mint fpow(Mint a, long long x);
+Mint inverse(Mint a);
 
 int main () {
     
