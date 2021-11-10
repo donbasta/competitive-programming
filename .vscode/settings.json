@@ -1,5 +1,11 @@
 {
     "code-runner.executorMap": {
         "cpp": "cd $dir && g++ -std=c++14 $fileName -o ./bins/$fileNameWithoutExt && ./bins/$fileNameWithoutExt < ./input.in > ./output.out"
+    },
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        ".yamllint": "yaml",
+        "functional": "cpp",
+        "iostream": "cpp"
     }
 }
