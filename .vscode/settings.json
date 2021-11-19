@@ -6,6 +6,9 @@
     "files.associations": {
         ".yamllint": "yaml",
         "functional": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "ios": "cpp",
+        "string": "cpp"
     }
 }
