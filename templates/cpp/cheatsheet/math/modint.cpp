@@ -24,13 +24,12 @@ public:
         return *this; 
     }
     ModInt& operator*=(const ModInt &a) {
-        v = 1ll * v * a.v % MOD;
+        v = 1LL * v * a.v % MOD;
         return *this; 
     }
     ModInt& operator/=(const ModInt &a) {
         return (*this) *= inverse(a); 
     }
- 
     friend ModInt fpow(ModInt a, long long x) {
         ModInt res = 1; assert(x >= 0);
         for (; x; x /= 2, a *= a) if (x & 1) res *= a;
@@ -40,7 +39,6 @@ public:
         assert(a.v != 0);
         return fpow(a, MOD - 2); 
     }
- 
     ModInt operator+() const { return ModInt(v); }
     ModInt operator-() const { return ModInt(-v); }
     ModInt operator++() const { return *this += 1; }
