@@ -24,7 +24,7 @@ public:
         return *this; 
     }
     ModInt& operator*=(const ModInt &a) {
-        v = 1LL * v * a.v % MOD;
+        v = 1ll * v * a.v % MOD;
         return *this; 
     }
     ModInt& operator/=(const ModInt &a) {
@@ -39,6 +39,7 @@ public:
         assert(a.v != 0);
         return fpow(a, MOD - 2); 
     }
+ 
     ModInt operator+() const { return ModInt(v); }
     ModInt operator-() const { return ModInt(-v); }
     ModInt operator++() const { return *this += 1; }
