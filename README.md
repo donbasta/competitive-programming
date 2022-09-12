@@ -16,10 +16,11 @@
 
 ## Commit message convention:
 
-| Prefix | description |
-| ------------- | ------------- | 
+| Prefix                | description                           |
+| --------------------- | ------------------------------------- |
 | `sol: <Contest Name>` | Submission to a contest / competition |
-| `lib: <Library Name>`| Library template |
-| `fix: <File Name>` | Fix a file |  
-| `ref: <File Name>` | Refactor a file |
-| `docs: <File Name>` | Add documentation, e.g. README.md |
+| `lib: <Library Name>` | Library template                      |
+| `fix: <File Name>`    | Fix a file                            |
+| `ref: <File Name>`    | Refactor a file                       |
+| `docs: <File Name>`   | Add documentation, e.g. README.md     |
+| `chore: <>`           | Add functionality in the repo         |
