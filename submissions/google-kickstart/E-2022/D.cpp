@@ -1,9 +1,9 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
- 
+
 using ll = long long;
 using ld = long double;
- 
+
 const ll INF = 1e18;
 
 ll floor(ll a, ll b) {
@@ -15,7 +15,7 @@ ll floor(ll a, ll b) {
 function<ll(ll)> createFunc(char op, ll val) {
     function<ll(ll)> haha = [=](ll x) -> ll {
         if (op == '+') {
-            return x + val; 
+            return x + val;
         }
         if (op == '-') {
             return x - val;
@@ -50,28 +50,32 @@ void solve() {
             for (int c = 0; c < n; c++) {
                 if (!vis[r][c]) continue;
                 if (r > 0) {
-                    if (tvis[r - 1][c]) tcost[r - 1][c] = max(lol[0](cost[r][c]), cost[r - 1][c]);
+                    if (tvis[r - 1][c])
+                        tcost[r - 1][c] = max(lol[0](cost[r][c]), cost[r - 1][c]);
                     else {
                         tcost[r - 1][c] = lol[0](cost[r][c]);
                         tvis[r - 1][c] = true;
                     }
                 }
                 if (c < n - 1) {
-                    if (tvis[r][c + 1]) tcost[r][c + 1] = max(lol[1](cost[r][c]), cost[r][c + 1]);
+                    if (tvis[r][c + 1])
+                        tcost[r][c + 1] = max(lol[1](cost[r][c]), cost[r][c + 1]);
                     else {
                         tcost[r][c + 1] = lol[1](cost[r][c]);
                         tvis[r][c + 1] = true;
                     }
                 }
                 if (c > 0) {
-                    if (tvis[r][c - 1]) tcost[r][c - 1] = max(lol[2](cost[r][c]), cost[r][c - 1]);
+                    if (tvis[r][c - 1])
+                        tcost[r][c - 1] = max(lol[2](cost[r][c]), cost[r][c - 1]);
                     else {
                         tcost[r][c - 1] = lol[2](cost[r][c]);
                         tvis[r][c - 1] = true;
                     }
                 }
                 if (r < n - 1) {
-                    if (tvis[r + 1][c]) tcost[r + 1][c] = max(lol[3](cost[r][c]), cost[r + 1][c]);
+                    if (tvis[r + 1][c])
+                        tcost[r + 1][c] = max(lol[3](cost[r][c]), cost[r + 1][c]);
                     else {
                         tcost[r + 1][c] = lol[3](cost[r][c]);
                         tvis[r + 1][c] = true;
@@ -92,17 +96,18 @@ void solve() {
     }
     cout << ans << '\n';
 }
- 
+
 int main() {
     ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
- 
+    cin.tie(0);
+    cout.tie(0);
+
     int TC = 1;
     cin >> TC;
-    for(int i = 1; i <= TC; i++) {
+    for (int i = 1; i <= TC; i++) {
         cout << "Case #" << i << ": ";
         solve();
     }
-  
+
     return 0;
 }

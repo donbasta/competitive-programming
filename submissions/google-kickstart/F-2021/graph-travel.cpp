@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 using ll = long long;
@@ -11,7 +11,7 @@ void solve() {
     cin >> n >> m >> k;
     vector<ll> L(n), R(n), A(n);
     for (int i = 0; i < n; i++) {
-        cin >> L[i] >> R[i] >> A[i];    
+        cin >> L[i] >> R[i] >> A[i];
     }
     vector<vector<bool>> adj(n, vector<bool>(n));
     vector<int> jalur;
@@ -47,11 +47,11 @@ void solve() {
                     if (j & (1 << l)) {
                         tmp += A[l];
                         sabi |= adj[l][k];
-                    } 
+                    }
                 }
                 if ((L[k] <= tmp) && (tmp <= R[k]) && sabi) {
                     dp[j ^ (1 << k)] += dp[j];
-                } 
+                }
             }
         }
         for (auto u : jalur) {
@@ -63,14 +63,15 @@ void solve() {
 
 int main() {
     ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    cin.tie(0);
+    cout.tie(0);
 
     int TC = 1;
     cin >> TC;
-    for(int i = 1; i <= TC; i++) {
+    for (int i = 1; i <= TC; i++) {
         cout << "Case #" << i << ": ";
         solve();
     }
-  
+
     return 0;
 }
