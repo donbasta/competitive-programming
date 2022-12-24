@@ -1,4 +1,4 @@
-//taken from cp algorithm
+// taken from cp algorithm
 
 int n;
 vector<vector<int>> capacity;

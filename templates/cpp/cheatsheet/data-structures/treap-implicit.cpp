@@ -1,8 +1,7 @@
 mt19937 rng32(chrono::steady_clock::now().time_since_epoch().count());
 
 typedef struct item *pitem;
-struct item
-{
+struct item {
     int val, prio, cnt;
     bool rev;
     pitem l, r;
@@ -11,19 +10,15 @@ struct item
 
 int cnt(pitem t) { return t ? t->cnt : 0; }
 
-void upd(pitem t)
-{
-    if (t)
-    {
+void upd(pitem t) {
+    if (t) {
         t->cnt = 1 + cnt(t->l) + cnt(t->r);
     }
 }
 
 // push for reverse operation
-void push(pitem t)
-{
-    if (t && t->rev)
-    {
+void push(pitem t) {
+    if (t && t->rev) {
         t->rev = false;
         swap(t->l, t->r);
         if (t->l)
@@ -33,8 +28,7 @@ void push(pitem t)
     }
 }
 
-void split(pitem t, pitem &l, pitem &r, int key, int add = 0)
-{
+void split(pitem t, pitem &l, pitem &r, int key, int add = 0) {
     if (!t)
         return void(l = r = 0);
     push(t);
@@ -46,8 +40,7 @@ void split(pitem t, pitem &l, pitem &r, int key, int add = 0)
     upd(t);
 }
 
-void merge(pitem &t, pitem l, pitem r)
-{
+void merge(pitem &t, pitem l, pitem r) {
     push(l);
     push(r);
     if (!l || !r)
@@ -59,10 +52,8 @@ void merge(pitem &t, pitem l, pitem r)
     upd(t);
 }
 
-void insert(pitem &t, pitem it, int pos)
-{
-    if (!t)
-    {
+void insert(pitem &t, pitem it, int pos) {
+    if (!t) {
         t = it;
         return;
     }
@@ -72,8 +63,7 @@ void insert(pitem &t, pitem it, int pos)
     merge(t, t1, t2);
 }
 
-void reverse(pitem t, int l, int r)
-{
+void reverse(pitem t, int l, int r) {
     pitem t1, t2, t3;
     split(t, t1, t2, l);
     split(t2, t2, t3, r - l + 1);
@@ -82,16 +72,14 @@ void reverse(pitem t, int l, int r)
     merge(t, t, t3);
 }
 
-void erase(pitem &t, int pos)
-{
+void erase(pitem &t, int pos) {
     pitem t1, t2, t3;
     split(t, t1, t2, pos);
     split(t2, t2, t3, 1);
     merge(t, t1, t3);
 }
 
-int get(pitem &t, int pos)
-{
+int get(pitem &t, int pos) {
     pitem t1, t2, t3;
     split(t, t1, t2, pos);
     split(t2, t2, t3, 1);
@@ -101,8 +89,7 @@ int get(pitem &t, int pos)
     return ret;
 }
 
-void output(pitem t)
-{
+void output(pitem t) {
     if (!t)
         return;
     push(t);

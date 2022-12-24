@@ -8,12 +8,11 @@ typedef complex<double> point;
 
 // http://www.cplusplus.com/reference/complex/
 
+// Vector addition: a + b
 
-//Vector addition: a + b
+// Scalar multiplication: r * a
 
-//Scalar multiplication: r * a
-
-//Dot product: (conj(a) * b).x
+// Dot product: (conj(a) * b).x
 
 // Cross product: (conj(a) * b).y
 
@@ -50,14 +49,13 @@ typedef complex<double> point;
 // Intersection of line (a, b) and (p, q):
 
 point intersection(point a, point b, point p, point q) {
-  double c1 = cross(p - a, b - a), c2 = cross(q - a, b - a);
-  return (c1 * q - c2 * p) / (c1 - c2); // undefined if parallel
+    double c1 = cross(p - a, b - a), c2 = cross(q - a, b - a);
+    return (c1 * q - c2 * p) / (c1 - c2);  // undefined if parallel
 }
 
-int main(){
-	point a = 2;
-	point b(1,2);
-	cout << a << " " << b << "\n";
-	cout << a + b << "\n";
+int main() {
+    point a = 2;
+    point b(1, 2);
+    cout << a << " " << b << "\n";
+    cout << a + b << "\n";
 }
-

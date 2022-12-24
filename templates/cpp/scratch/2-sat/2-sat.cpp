@@ -1,5 +1,5 @@
 
-//implementation from cp-algorithms
+// implementation from cp-algorithms
 
 int n;
 vector<vector<int>> g, gt;

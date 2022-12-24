@@ -1,12 +1,10 @@
 typedef struct Vertex *pvertex;
-struct Vertex
-{
+struct Vertex {
     Vertex *l, *r;
     int sum;
 
     Vertex(int val) : l(NULL), r(NULL), sum(val) {}
-    Vertex(Vertex *l, Vertex *r) : l(l), r(r), sum(0)
-    {
+    Vertex(Vertex *l, Vertex *r) : l(l), r(r), sum(0) {
         if (l)
             sum += (l->sum);
         if (r)
@@ -14,10 +12,8 @@ struct Vertex
     }
 };
 
-pvertex build(const vector<int> &ar, int s, int e)
-{
-    if (tl == tr)
-    {
+pvertex build(const vector<int> &ar, int s, int e) {
+    if (tl == tr) {
         return new Vertex(ar[tl]);
     }
     int mid = (s + e) >> 1;
@@ -25,8 +21,7 @@ pvertex build(const vector<int> &ar, int s, int e)
 }
 
 // sum
-int get(pvertex v, int s, int e, int l, int r)
-{
+int get(pvertex v, int s, int e, int l, int r) {
     if (l > r)
         return 0;
     if (l == tl && r == tr)
@@ -36,8 +31,7 @@ int get(pvertex v, int s, int e, int l, int r)
 }
 
 // point update
-pvertex update(pvertex v, int s, int e, int pos, int val)
-{
+pvertex update(pvertex v, int s, int e, int pos, int val) {
     if (l == r)
         return new Vertex(val);
     int mid = (s + e) >> 1;

@@ -6,7 +6,9 @@ ll fc[2 * N + 5], ifc[2 * N + 5];
 ll fpow(ll a, ll b) {
     ll ret = 1;
     while (b) {
-        if (b & 1) { ret = (ret * a) % MOD; }
+        if (b & 1) {
+            ret = (ret * a) % MOD;
+        }
         a = (a * a) % MOD;
         b >>= 1;
     }
@@ -17,11 +19,11 @@ inline ll inv(ll a) { return fpow(a, MOD - 2); }
 
 void init_fac() {
     fc[0] = 1;
-    for(int i = 1; i <= N; i++) {
+    for (int i = 1; i <= N; i++) {
         fc[i] = (fc[i - 1] * i) % MOD;
     }
     ifc[N] = inv(fc[N]);
-    for(int i = N - 1; i >= 0; i--) {
+    for (int i = N - 1; i >= 0; i--) {
         ifc[i] = (ifc[i + 1] * (i + 1)) % MOD;
     }
 }
