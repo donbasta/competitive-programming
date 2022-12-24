@@ -2,7 +2,7 @@
     "code-runner.executorMap": {
         "cpp": "cd $dir && g++ -std=c++14 $fileName -o ./bins/$fileNameWithoutExt && ./bins/$fileNameWithoutExt < ./input.in > ./output.out"
     },
-    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         ".yamllint": "yaml",
         "functional": "cpp",
@@ -18,7 +18,14 @@
         "valarray": "cpp",
         "compare": "cpp",
         "random": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "barrier": "cpp",
+        "chrono": "cpp",
+        "latch": "cpp",
+        "limits": "cpp",
+        "semaphore": "cpp",
+        "algorithm": "cpp"
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, ColumnLimit: 0, AllowShortIfStatementsOnASingleLine: true }"
 }
