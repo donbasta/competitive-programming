@@ -15,6 +15,10 @@
         "forward_list": "cpp",
         "list": "cpp",
         "vector": "cpp",
-        "valarray": "cpp"
-    }
+        "valarray": "cpp",
+        "compare": "cpp",
+        "random": "cpp",
+        "span": "cpp"
+    },
+    "editor.formatOnSave": true
 }
