@@ -1,8 +1,12 @@
+# ignoring unix build file
+*
+!/**/
+!*.*
+
+# ignoring windows build file
 *.exe
+
+# IO file
 *.in
 *.out
 *.txt
-cp-dari-ubuntu
-/submissions/.vscode
-*bins/
-*.pdb
