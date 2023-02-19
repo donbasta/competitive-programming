@@ -1,8 +1,17 @@
 {
-    "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ -std=c++14 $fileName -o ./tmp/$fileNameWithoutExt && ./tmp/$fileNameWithoutExt < ./input.in > ./output.out"
-    },
-    "C_Cpp.errorSquiggles": "disabled",
-    "editor.formatOnSave": true,
-    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, ColumnLimit: 0, AllowShortIfStatementsOnASingleLine: true }"
+  "code-runner.executorMap": {
+    "cpp": "cd $dir && g++ -std=c++14 $fileName -o ./$fileNameWithoutExt && ./$fileNameWithoutExt < ./input.in > ./output.out"
+  },
+  "C_Cpp.errorSquiggles": "disabled",
+  "editor.formatOnSave": true,
+  "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Google, UseTab: Never, IndentWidth: 4, ColumnLimit: 0, AllowShortIfStatementsOnASingleLine: true }",
+  "files.associations": {
+    "*.toml": "toml",
+    "iostream": "cpp",
+    "chrono": "cpp",
+    "random": "cpp",
+    "limits": "cpp",
+    "valarray": "cpp",
+    "algorithm": "cpp"
+  }
 }
