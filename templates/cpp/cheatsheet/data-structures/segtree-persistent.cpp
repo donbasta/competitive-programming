@@ -24,7 +24,7 @@ pvertex build(const vector<int> &ar, int s, int e) {
 int get(pvertex v, int s, int e, int l, int r) {
     if (l > r)
         return 0;
-    if (l == tl && r == tr)
+    if (l == s && r == e)
         return v->sum;
     int mid = (s + e) >> 1;
     return get(v->l, s, mid, l, min(r, mid)) + get(v->r, mid + 1, e, max(l, mid + 1), r);

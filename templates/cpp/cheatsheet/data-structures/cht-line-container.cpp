@@ -2,7 +2,7 @@
 
 using ll = long long;
 
-const LL INF = 1e18 + 69;  // LLONG_MAX
+const ll INF = 1e18 + 69;  // LLONG_MAX
 
 struct line {
     ll k, m, p;
