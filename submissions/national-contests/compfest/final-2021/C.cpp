@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 using ll = long long;
@@ -10,15 +10,15 @@ const ld PI = acos(-1);
 
 const ll MOD = 1e9 + 7;
 
-void fft(vector<cd> & a, bool invert) {
+void fft(vector<cd>& a, bool invert) {
     int n = a.size();
     if (n == 1)
         return;
 
     vector<cd> a0(n / 2), a1(n / 2);
     for (int i = 0; 2 * i < n; i++) {
-        a0[i] = a[2*i];
-        a1[i] = a[2*i+1];
+        a0[i] = a[2 * i];
+        a1[i] = a[2 * i + 1];
     }
     fft(a0, invert);
     fft(a1, invert);
@@ -27,10 +27,10 @@ void fft(vector<cd> & a, bool invert) {
     cd w(1), wn(cos(ang), sin(ang));
     for (int i = 0; 2 * i < n; i++) {
         a[i] = a0[i] + w * a1[i];
-        a[i + n/2] = a0[i] - w * a1[i];
+        a[i + n / 2] = a0[i] - w * a1[i];
         if (invert) {
             a[i] /= 2;
-            a[i + n/2] /= 2;
+            a[i + n / 2] /= 2;
         }
         w *= wn;
     }
@@ -39,7 +39,7 @@ void fft(vector<cd> & a, bool invert) {
 vector<int> mul(vector<int> const& a, vector<int> const& b) {
     vector<cd> fa(a.begin(), a.end()), fb(b.begin(), b.end());
     int n = 1;
-    while (n < a.size() + b.size()) 
+    while (n < a.size() + b.size())
         n <<= 1;
     fa.resize(n);
     fb.resize(n);
@@ -59,7 +59,6 @@ vector<int> mul(vector<int> const& a, vector<int> const& b) {
 
     return result;
 }
-
 
 void solve() {
     ll n, m, k;
@@ -135,9 +134,8 @@ void solve() {
 
     vector<int> prod = mul(C1, C2);
 
-
     vector<int> prodInt(k);
-    int sz = (int) prod.size();
+    int sz = (int)prod.size();
     for (int i = 0; i < sz; i++) {
         prodInt[i % k] = (1LL * prodInt[i % k] + prod[i]) % MOD;
     }
@@ -146,7 +144,7 @@ void solve() {
         ll sumTengah = (pre[n] * i) % k;
         ll sumSamping = (k - sumTengah) % k;
         ll tmp = prodInt[sumSamping];
-        if (i == 0) tmp--; 
+        if (i == 0) tmp--;
         ans = (ans + tmp * m) % MOD;
         if (ans < 0) ans += MOD;
         // cerr << ans << '\n';
@@ -183,17 +181,18 @@ void solve() {
 
     ans %= MOD;
     if (ans < 0) ans += MOD;
-    cout << ans << '\n'; 
+    cout << ans << '\n';
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    cin.tie(0);
+    cout.tie(0);
 
     int TC = 1;
-    for(int i = 1; i <= TC; i++) {
+    for (int i = 1; i <= TC; i++) {
         solve();
     }
-  
+
     return 0;
 }

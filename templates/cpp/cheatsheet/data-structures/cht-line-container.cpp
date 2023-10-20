@@ -31,9 +31,7 @@ struct lineContainer : multiset<line, less<>> {
         return x->p >= y->p;
     }
     void add(ll k, ll m) {
-        auto z = insert({k,
-                         m,
-                         0}),
+        auto z = insert({k, m, 0}),
              y = z++, x = y;
         while (intersect(y, z))
             z = erase(z);
@@ -47,4 +45,4 @@ struct lineContainer : multiset<line, less<>> {
         auto l = *lower_bound(x);
         return l.k * x + l.m;
     }
-}
+};

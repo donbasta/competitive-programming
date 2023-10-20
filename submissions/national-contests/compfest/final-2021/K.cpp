@@ -1,4 +1,4 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 using ll = long long;
@@ -10,7 +10,9 @@ const ll MOD = 1e9 + 7;
 ll fpow(ll a, ll b) {
     ll ret = 1;
     while (b) {
-        if (b & 1) { ret = (ret * a) % MOD; }
+        if (b & 1) {
+            ret = (ret * a) % MOD;
+        }
         a = (a * a) % MOD;
         b >>= 1;
     }
@@ -29,17 +31,18 @@ void solve() {
     }
     ll ans = fpow(k, pang);
     if (ans < 0) ans += MOD;
-    cout << ans << '\n'; 
+    cout << ans << '\n';
 }
 
 int main() {
     ios_base::sync_with_stdio(0);
-    cin.tie(0); cout.tie(0);
+    cin.tie(0);
+    cout.tie(0);
 
     int TC = 1;
-    for(int i = 1; i <= TC; i++) {
+    for (int i = 1; i <= TC; i++) {
         solve();
     }
-  
+
     return 0;
 }

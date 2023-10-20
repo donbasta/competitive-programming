@@ -4,7 +4,7 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
-void generateDivisors(int curIdx, int curDiv, vector<pair<int, int>>& ar, vector<int>& div) {
+void generateDivisors(int curIdx, int curDiv, const vector<pair<int, int>>& ar, vector<int>& div) {
     if (curIdx == ar.size()) {
         div.emplace_back(curDiv);
         return;

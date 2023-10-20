@@ -1,55 +1,55 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include <bits/stdc++.h>
 
+using namespace std;
 using ll = long long;
 using ld = long double;
 
-const int N = 2e5;
+const ll INF = 1e18 + 69;
 
-int dep[N + 5];
-vector<int> adj[N + 5];
-
-void dfs(int v, int p) {
-  for(auto c : adj[v]) {
-    if(c == p) continue;
-    dep[c] = dep[v] + 1;
-    dfs(c, v);
-  }
+ll minXOR(const vector<int>& ve, int bit, int l1, int r1, int l2, int r2) {
+    if (l1 >= r1 || l2 >= r2)
+        return INF;
+    if (bit < 0)
+        return 0LL;
+    int m1 = l1, m2 = l2;
+    while (m1 < r1 && !((ve[m1] >> bit) & 1)) m1++;
+    while (m2 < r2 && !((ve[m2] >> bit) & 1)) m2++;
+    if ((l1 < m1 && l2 < m2) || (m1 < r1 && m2 < r2))
+        return min(minXOR(ve, bit - 1, l1, m1, l2, m2), minXOR(ve, bit - 1, m1, r1, m2, r2));
+    else
+        return min(minXOR(ve, bit - 1, l1, m1, m2, r2), minXOR(ve, bit - 1, m1, r1, l2, m2)) + (1LL << bit);
 }
 
-void solve() {
-  int n;
-  cin >> n;
-  for(int i = 0; i < n - 1; i++) {
-    int a, b;
-    cin >> a >> b;
-    adj[a].push_back(b);
-    adj[b].push_back(a);
-  } 
-  dfs(1, 0);
-  int mx = -1, lol = 0;
-  for(int i = 1; i <= n; i++) {
-    if(dep[i] > mx) {
-      lol = i; mx = dep[i];
-    }
-  }
-  dep[lol] = 0;
-  dfs(lol, 0);
-  mx = -1;
-  for(int i = 1; i <= n; i++) {
-    if(dep[i] > mx) mx = dep[i];
-  }
-  cout << mx << '\n';
+ll solve(const vector<int>& ve, int bit, int l, int r) {
+    ll temp;
+    if (bit < 0 || r - l <= 1)
+        return 0LL;
+    int cur = l;
+    while (cur < r && !((ve[cur] >> bit) & 1))
+        cur++;
+    temp = solve(ve, bit - 1, l, cur) + solve(ve, bit - 1, cur, r);
+    if (l < cur && cur < r)
+        temp += (minXOR(ve, bit - 1, l, cur, cur, r) + (1LL << bit));
+    return temp;
 }
 
 int main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
 
-  int TC = 1;
-  for(int i = 1; i <= TC; i++) {
-    solve();
-  }
-  
-  return 0;
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+
+    int n;
+    cin >> n;
+    vector<int> ar(n);
+    for (int i = 0; i < n; i++) {
+        cin >> ar[i];
+    }
+    sort(ar.begin(), ar.end());
+    cout << solve(ar, 29, 0, n) << '\n';
+    return 0;
 }

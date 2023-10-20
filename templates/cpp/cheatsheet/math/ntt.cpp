@@ -5,7 +5,7 @@ using ll = long long;
 using ld = long double;
 using vll = vector<ll>;
 
-const ll mod = (119 << 23) + 1, root = 62;
+const ll mod = 998244353, root = 62;
 
 // KTH cheatsheet template
 ll fpow(ll a, ll b) {

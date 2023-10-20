@@ -168,8 +168,7 @@ vector<pair<point, point> > tangent2Circle(point o1, double r1, point o2, double
     return ret;
 }
 
-Geometry : The Great - Circle Distance(SPHERES)
-double gcDistance(double plat, double plong, double qlat, double, qlong, double radius) {
+double gcDistance(double plat, double plong, double qlat, double qlong, double radius) {
     plat *= PI / 180;
     plong *= PI / 180;
     qlat *= PI / 180;
@@ -179,10 +178,9 @@ double gcDistance(double plat, double plong, double qlat, double, qlong, double 
                         cos(plat) * sin(plong) * cos(qlat) * sin(qlong) +
                         sin(plat) * sin(qlat));
 }
-Geometry : Polygon
-           // (Polygon)
-           double
-           area(const vector<point>& P) {
+
+// (Polygon)
+double area(const vector<point>& P) {
     double result = 0.0;
     for (int i = 0; i + 1 < (int)P.size(); ++i) {
         result += P[i] % P[i + 1];  // cross(P[i], P[i+1]);
@@ -233,14 +231,12 @@ vector<point> cutPolygon(point a, point b, vector<point> Q) {
     if (P.empty()) return P;
     if (!(P.front() == P.back()))
         P.push_back(P.front());
-    y return P;
+    return P;
 }
 
-Geometry : Convex hull
-           // Graham’s Scan Algorithm
-           // need implement operator<,-,cross,ccw on Point’s library
-           double
-           dist2(point a, point b) {  // norm_sq(b - a)
+// Graham’s Scan Algorithm
+// need implement operator<,-,cross,ccw on Point’s library
+double dist2(point a, point b) {  // norm_sq(b - a)
     return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 }
 point pivot;
@@ -282,7 +278,7 @@ void convexHull(vector<point>& P) {
     }
     P = S;
 }
-Convex Hull Trick Dynamic const ll is_query = -(1LL << 62);
+const ll is_query = -(1LL << 62);
 struct Line {
     ll m, b;
     mutable function<const Line*()> succ;

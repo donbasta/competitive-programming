@@ -1,4 +1,4 @@
-class SparseTable {
+struct SparseTable {
     const int K = 20;
     vector<vector<int>> table(K + 1);
     int n;

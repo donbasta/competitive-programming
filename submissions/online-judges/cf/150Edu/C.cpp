@@ -4,61 +4,61 @@ using namespace std;
 using ll = long long;
 using ld = long double;
 
-const ll INF = 1e18;
+const int INF = 2e9;
 
 void solve() {
     string s;
     cin >> s;
     int n = s.length();
-    vector<ll> val = {1, 10, 100, 1000, 10000};
-
-    ll sum = 0;
-    ll mx = 0;
-    vector<vector<ll>> ve(5, vector<ll>(5));
-    for (int i = n - 1; i >= 0; i--) {
-        ll dig = s[i] - 'A';
-        ve[dig][mx]++;
-        if (dig >= mx) {
-            sum += val[dig];
-        } else {
-            sum -= val[dig];
-        }
-        mx = max(mx, dig);
+    vector<char> mx(n);
+    mx[n - 1] = s.back();
+    for (int i = n - 2; i >= 0; i--) {
+        mx[i] = max(mx[i + 1], s[i]);
     }
-    ll ret = -INF;
-    mx = 0;
-    for (int i = n - 1; i >= 0; i--) {
-        ll dig = s[i] - 'A';
-        ve[dig][mx]--;
+    vector<vector<int>> ve(5, vector<int>(n)), pref_pos(5, vector<int>(n));
+    for (char i = 'A'; i <= 'E'; i++) {
+        if (s.back() == i) {
+            ve[i - 'A'][n - 1] = 1;
+        }
+        for (int j = n - 2; j >= 0; j--) {
+            if (s[j] != i) continue;
+            if (mx[j + 1] > i)
+                ve[i - 'A'][j] = -1;
+            else
+                ve[i - 'A'][j] = 1;
+        }
+    }
+    for (int i = 0; i < n; i++) {
         for (int j = 0; j < 5; j++) {
-            // change dig to j
-            ll tmp = sum;
-            if (dig < mx)
-                tmp += val[dig];
-            else
-                tmp -= val[dig];
-            if (j >= mx)
-                tmp += val[j];
-            else
-                tmp -= val[j];
-            for (int k = 0; k < 5; k++) {
-                for (int l = 0; l < 5; l++) {
-                    if (l <= k)
-                        tmp -= ve[k][l] * val[k];
-                    else
-                        tmp += ve[k][l] * val[k];
-                    if (j <= k && l <= k)
-                        tmp += ve[k][l] * val[k];
-                    else
-                        tmp -= ve[k][l] * val[k];
-                }
-            }
-            cout << i << ' ' << j << ' ' << tmp << '\n';
-            ret = max(ret, tmp);
+            pref_pos[j][i] = (i ? pref_pos[j][i - 1] : 0) + (ve[j][i] == 1);
         }
-        mx = max(mx, dig);
     }
-    cout << ret << '\n';
+    int ori = 0;
+    int val[] = {1, 10, 100, 1000, 10000};
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < 5; j++) {
+            ori += ve[j][i] * val[j];
+        }
+    }
+    int ans = ori;
+    for (int i = n - 1; i >= 0; i--) {
+        int tmp = ori;
+        char kan = (i == n - 1 ? 'A' : mx[i + 1]);
+        if (ve[s[i] - 'A'][i] == 1) {
+            tmp -= val[s[i] - 'A'];
+        } else if (ve[s[i] - 'A'][i] == -1) {
+            tmp += val[s[i] - 'A'];
+        }
+        for (char j = kan; j <= 'E'; j++) {
+            int lmao = tmp;
+            lmao += val[j - 'A'];
+            for (char k = 'A'; k < j; k++) {
+                lmao -= (i ? (2 * pref_pos[k - 'A'][i - 1] * val[k - 'A']) : 0);
+            }
+            ans = max(ans, lmao);
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main() {

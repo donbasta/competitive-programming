@@ -1,14 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> adj[N]  // storing edges information
-    int sz[N]       // storing subree size
-    bool dead[N]    // vertices not traversed during decomposition
+vector<int> adj[N];  // storing edges information
+int sz[N];           // storing subree size
+bool dead[N];        // vertices not traversed during decomposition
 
-    // taken from https://codeforces.com/blog/entry/58025
+// taken from https://codeforces.com/blog/entry/58025
 
-    void
-    getSize(int v, int p) {
+void getSize(int v, int p) {
     sz[v] = 1;
     for (auto i : adj[v]) {
         if (i == p || dead[i])

@@ -9,7 +9,13 @@ const int INF = 2e9;
 void solve() {
     int n;
     cin >> n;
-    cout << (n + 3) << '\n';
+    int ans = 2e9;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        ans = min(ans, abs(x));
+    }
+    cout << ans << '\n';
 }
 
 int main() {
@@ -18,7 +24,6 @@ int main() {
     cout.tie(0);
 
     int TC = 1;
-    cin >> TC;
     for (int i = 1; i <= TC; i++) {
         solve();
     }
