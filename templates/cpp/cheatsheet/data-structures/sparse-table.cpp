@@ -1,8 +1,9 @@
 struct SparseTable {
     const int K = 20;
-    vector<vector<int>> table(K + 1);
+    vector<vector<int>> table;
     int n;
     SparseTable(const vector<int>& ar) : n(ar.size()) {
+        table.resize(K + 1);
         for (auto& v : table) v.resize(n + 5);
         for (int i = 0; i < n; i++) {
             table[0][i] = ar[i];
