@@ -1,6 +1,6 @@
 {
   "code-runner.executorMap": {
-    "cpp": "cd $dir && g++ -std=c++14 $fileName -o ./$fileNameWithoutExt && ./$fileNameWithoutExt < ./input.in > ./output.out"
+    "cpp": "cd $dir && g++ -std=c++20 -O2 $fileName -D LOCAL -o ./$fileNameWithoutExt && ./$fileNameWithoutExt < ./input.in > ./output.out"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "editor.formatOnSave": true,
@@ -92,7 +92,8 @@
     "thread": "cpp",
     "typeindex": "cpp",
     "typeinfo": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "stacktrace": "cpp"
   },
   "python.formatting.provider": "black"
 }
