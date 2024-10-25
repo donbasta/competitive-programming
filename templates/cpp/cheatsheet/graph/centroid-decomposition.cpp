@@ -1,5 +1,5 @@
 int timer = 0;
-vector<int> tin(n), tout(n), val(n);
+vector<int> tin(n), tout(n), dep(n);
 const int B = 20;
 vector<vector<int>> up(n, vector<int>(B + 1));
 const function<void(int, int)> dfs_lca = [&](int v, int p) {
@@ -10,7 +10,7 @@ const function<void(int, int)> dfs_lca = [&](int v, int p) {
     }
     for (auto c : adj[v]) {
         if (c == p) continue;
-        val[c] = val[v] ^ ve[c];
+        dep[c] = dep[v] + 1;
         dfs_lca(c, v);
     }
     tout[v] = timer++;
@@ -27,9 +27,8 @@ const function<int(int, int)> lca = [&](int u, int v) -> int {
     return up[u][0];
 };
 const function<int(int, int)> dis = [&](int a, int b) -> int {
-    return val[a] ^ val[b] ^ ve[lca(a, b)];
+    return dep[a] + dep[b] - 2 * dep[lca(a, b)];
 };
-val[0] = ve[0];
 dfs_lca(0, 0);
 
 vector<int> sz(n), par(n);
@@ -37,15 +36,15 @@ vector<bool> processed(n);
 const function<void(int, int)> dfs_size = [&](int v, int p) {
     sz[v] = 1;
     for (auto c : adj[v]) {
-        if (c.first == p || processed[c.first]) continue;
-        dfs_size(c.first, v);
-        sz[v] += sz[c.first];
+        if (c == p || processed[c]) continue;
+        dfs_size(c, v);
+        sz[v] += sz[c];
     }
 };
 const function<int(int, int, int)> get_centroid = [&](int v, int p, int comp_size) -> int {
     for (auto c : adj[v]) {
-        if (c.first == p || processed[c.first]) continue;
-        if (sz[c.first] > (comp_size / 2)) return get_centroid(c.first, v, comp_size);
+        if (c == p || processed[c]) continue;
+        if (sz[c] > (comp_size / 2)) return get_centroid(c, v, comp_size);
     }
     return v;
 };
@@ -56,8 +55,8 @@ const function<void(int, int)> cd = [&](int v, int p) {
     par[ctr] = (p == -1 ? ctr : p);
     processed[ctr] = true;
     for (auto c : adj[ctr]) {
-        if (processed[c.first]) continue;
-        cd(c.first, ctr);
+        if (processed[c]) continue;
+        cd(c, ctr);
     }
     processed[ctr] = false;
 };

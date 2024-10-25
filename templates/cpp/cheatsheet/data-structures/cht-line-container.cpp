@@ -1,13 +1,15 @@
 // taken from https://github.com/kth-competitive-programming/kactl/blob/master/content/data-structures/LineContainer.h
 
+// MAX query
+
 using ll = long long;
 
 const ll INF = 1e18 + 69;  // LLONG_MAX
 
 struct line {
-    ll k, m, p;
+    mutable ll k, m, p;
     bool operator<(const line &other) const {
-        return k < o.k;
+        return k < other.k;
     }
     bool operator<(ll x) const {
         return p < x;

@@ -47,9 +47,9 @@ vll conv(const vll &a, const vll &b) {
         rev[i] = (rev[i / 2] | (i & 1) << B) / 2;
     }
     ll curL = mod / 2;
-    ll inv = fastexpo(n, mod - 2);
+    ll inv = fpow(n, mod - 2);
     for (int k = 2; k < n; k *= 2) {
-        ll z[] = {1, fastexpo(root, curL /= 2)};
+        ll z[] = {1, fpow(root, curL /= 2)};
         for (int i = k; i < 2 * k; i++) {
             rt[i] = rt[i / 2] * z[i & 1] % mod;
         }
